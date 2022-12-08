@@ -1,0 +1,78 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>add member</title>
+</head>
+<body>
+<h1>Web Development - assign2</h1>
+<div id="current_date"></p>
+<!--  where the user enters the data-->
+    <label for="cname">customer name</label><br>
+    <input type="text" id="cname" name="cname" required><br><br>
+    <label for="phone">phone</label><br>
+    <input type="text" id="phone" name="phone" required><br><br>
+    <label for="unumber">unit number</label><br>
+    <input type="text" id="unumber" name="unumber"><br><br>
+    <label for="snumber">street number</label><br>
+    <input type="text" id="snumber" name="snumber" required><br><br>
+    <label for="stname">street name</label><br>
+    <input type="text" id="stname" name="stname" required><br><br>
+    <label for="sbname">suburb</label><br>
+    <input type="text" id="sbname" name="sbname"><br><br>
+    <label for="dsbname">destination suburb</label><br>
+    <input type="text" id="dsbname" name="dsbname"><br><br>
+    <label for="date">pickup date</label><br>
+    <input type="date" id="date" name="date" required><br><br>
+    <label for="time">pickup time</label><br>
+    <input type="time" id="time" name="time" required><br><br>
+    <input type="submit" onclick="checkDateAndTime()" value="Submit">
+<script>
+    //assigning the date and time to the form elements
+    var date = new Date().getDate();
+    var month = new Date().getMonth() + 1;
+    var year = new Date().getFullYear();
+    //making sure that the date and time are formatted correctly
+    if(date < 10){
+        date = "0" + date;
+    }
+    if(month < 10){
+        month = "0" + month;
+    }
+    var fulldate = year + "-" + month + "-" + date;
+    //setting the form elements to the correct time and date
+    document.getElementById("date").value = fulldate;
+    document.getElementById("time").value = new Date().toTimeString().substr(0, 5);
+    //function that calls another function and formats text in an alert so that it is formatted correctly
+    function checkDateAndTime(){
+            const time = document.getElementById("time").value + "";
+            const fulldate = document.getElementById("date").value + "";
+            const date = fulldate.substring(fulldate.length - 2, fulldate.length) + "-" + fulldate.substring(5, 7) + "-" + fulldate.substring(0, 4);
+            submit();
+            alert(`Thank you for your booking!\n\nReference number: BRN\nPickup time: ${time}\nPickup date: ${date}`);
+    }
+    //function that sends the data entered by the user to the booking_add page using XMLHttpRequest object
+    function submit(){
+        var XHR = new XMLHttpRequest();
+        var body = "reference="+
+        "&cname=" + document.getElementById("cname").value +
+        "&phone=" + document.getElementById("phone").value +
+        "&unumber=" + document.getElementById("unumber").value +
+        "&snumber=" + document.getElementById("snumber").value +
+        "&snumber=" + document.getElementById("snumber").value +
+        "&stname=" + document.getElementById("stname").value +
+        "&sbname=" + document.getElementById("sbname").value +
+        "&dsbname=" + document.getElementById("dsbname").value +
+        "&date=" + document.getElementById("date").value +
+        "&time=" + document.getElementById("time").value +
+        "&src=JAVASCRIPT";
+        
+        XHR.open("POST", "booking_add.php", true);
+        XHR.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        XHR.send(body);
+}
+</script>
+<br>
+</body>
+</html>
+<!--storing the url of the page here for easy reference-->
+<!--http://prq2929.cmslamp14.aut.ac.nz/assign2/booking.html-->
